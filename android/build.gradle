@@ -1,0 +1,43 @@
+group 'ljy.com.example.flutterutilcodeplugin'
+version '1.0'
+
+buildscript {
+    repositories {
+        maven{ url 'https://maven.aliyun.com/repository/google' }
+        maven{ url 'https://maven.aliyun.com/repository/jcenter' }
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public'}
+        maven { url "http://download.flutter.io"}
+        google()
+        jcenter()
+
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        maven{ url 'https://maven.aliyun.com/repository/google' }
+        maven{ url 'https://maven.aliyun.com/repository/jcenter' }
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public'}
+        maven { url "http://download.flutter.io"}
+        google()
+        jcenter()
+
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
