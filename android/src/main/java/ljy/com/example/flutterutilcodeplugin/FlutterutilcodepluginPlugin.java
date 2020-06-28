@@ -1,26 +1,21 @@
 package ljy.com.example.flutterutilcodeplugin;
 
-import androidx.annotation.NonNull;
+import android.content.Context;
+
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterutilcodepluginPlugin */
-public class FlutterutilcodepluginPlugin implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+public class FlutterutilcodepluginPlugin implements FlutterPlugin {
+  private static final String CHANNEL_NAME = "plugins.flutter.io/flutterutilcodeplugin";
   private MethodChannel channel;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutterutilcodeplugin");
-    channel.setMethodCallHandler(this);
+    setupChannel(flutterPluginBinding.getBinaryMessenger(), flutterPluginBinding.getApplicationContext());
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -33,21 +28,25 @@ public class FlutterutilcodepluginPlugin implements FlutterPlugin, MethodCallHan
   // depending on the user's project. onAttachedToEngine or registerWith must both be defined
   // in the same class.
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutterutilcodeplugin");
-    channel.setMethodCallHandler(new FlutterutilcodepluginPlugin());
+
+    final FlutterutilcodepluginPlugin plugin = new FlutterutilcodepluginPlugin();
+    plugin.setupChannel(registrar.messenger(), registrar.context());
   }
 
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
-    }
-  }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    teardownChannel();
+  }
+
+  private void setupChannel(BinaryMessenger messenger, Context context) {
+    channel = new MethodChannel(messenger, CHANNEL_NAME);
+    MethodCallHandlerImpl handler = new MethodCallHandlerImpl(context);
+    channel.setMethodCallHandler(handler);
+  }
+
+  private void teardownChannel() {
     channel.setMethodCallHandler(null);
+    channel = null;
   }
 }

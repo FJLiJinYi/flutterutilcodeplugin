@@ -9,6 +9,7 @@ environment:
   flutter: ">=1.10.0"
 
 dependencies:
+  meta: ^1.0.4
   flutter:
     sdk: flutter
 
