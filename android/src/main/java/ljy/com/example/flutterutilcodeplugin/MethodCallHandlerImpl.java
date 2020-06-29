@@ -2,7 +2,10 @@ package ljy.com.example.flutterutilcodeplugin;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
+
+import androidx.annotation.NonNull;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -31,6 +34,7 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+
         try {
             switch (call.method){
                 //about Device
@@ -55,6 +59,28 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
                     break;
                 case "getMacAddress":
                     result.success(DeviceUtils.getMacAddress(mContext));
+                    break;
+                case "getManufacturer":
+                    result.success(DeviceUtils.getManufacturer());
+                    break;
+                case "getModel":
+                    result.success(DeviceUtils.getModel());
+                    break;
+                case "getABIs":
+                    result.success(DeviceUtils.getABIs());
+                    break;
+                case "isTablet":
+                    result.success(DeviceUtils.isTablet());
+                    break;
+                case "isEmulator":
+                    result.success(DeviceUtils.isEmulator(mContext));
+                    break;
+                case "getUniqueDeviceId":
+                    result.success(DeviceUtils.getUniqueDeviceId(mContext));
+                    break;
+                case "isSameDevice":
+                    String value = (String) call.argument("value");
+                    result.success(DeviceUtils.isSameDevice(mContext,value));
                     break;
 
                 default:

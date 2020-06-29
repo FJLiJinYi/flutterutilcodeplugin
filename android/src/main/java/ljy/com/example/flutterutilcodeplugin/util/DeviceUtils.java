@@ -12,6 +12,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
@@ -118,13 +119,13 @@ public final class DeviceUtils {
      */
     @RequiresPermission(allOf = {ACCESS_WIFI_STATE, INTERNET, CHANGE_WIFI_STATE})
     public static String getMacAddress(Context mContext) {
-        String macAddress = getMacAddress((String[]) null);
+        String macAddress = getMacAddress(mContext,(String[]) null);
         if (!macAddress.equals("") || getWifiEnabled(mContext)) {
             return macAddress;
         }
         setWifiEnabled(true,mContext);
         setWifiEnabled(false,mContext);
-        return getMacAddress((String[]) null);
+        return getMacAddress(mContext,(String[]) null);
     }
 
     private static boolean getWifiEnabled(Context mContext) {
@@ -163,7 +164,7 @@ public final class DeviceUtils {
      * @return the MAC address
      */
     @RequiresPermission(allOf = {ACCESS_WIFI_STATE, INTERNET})
-    public static String getMacAddress(final String... excepts) {
+    public static String getMacAddress(Context mContext, final String... excepts) {
         String macAddress = getMacAddressByNetworkInterface();
         if (isAddressNotInExcepts(macAddress, excepts)) {
             return macAddress;
@@ -172,7 +173,7 @@ public final class DeviceUtils {
         if (isAddressNotInExcepts(macAddress, excepts)) {
             return macAddress;
         }
-        macAddress = getMacAddressByWifiInfo();
+        macAddress = getMacAddressByWifiInfo(mContext);
         if (isAddressNotInExcepts(macAddress, excepts)) {
             return macAddress;
         }
@@ -196,19 +197,18 @@ public final class DeviceUtils {
     }
 
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    private static String getMacAddressByWifiInfo() {
-//        try {
-//            final WifiManager wifi = (WifiManager) Utils.getApp()
-//                    .getApplicationContext().getSystemService(WIFI_SERVICE);
-//            if (wifi != null) {
-//                final WifiInfo info = wifi.getConnectionInfo();
-//                if (info != null) {
-//                    return info.getMacAddress();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    private static String getMacAddressByWifiInfo(Context mContext) {
+        try {
+            final WifiManager wifi = (WifiManager) mContext.getSystemService(WIFI_SERVICE);
+            if (wifi != null) {
+                final WifiInfo info = wifi.getConnectionInfo();
+                if (info != null) {
+                    return info.getMacAddress();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "02:00:00:00:00:00";
     }
 
@@ -359,42 +359,42 @@ public final class DeviceUtils {
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
-    public static boolean isEmulator() {
-//        boolean checkProperty = Build.FINGERPRINT.startsWith("generic")
-//                || Build.FINGERPRINT.toLowerCase().contains("vbox")
-//                || Build.FINGERPRINT.toLowerCase().contains("test-keys")
-//                || Build.MODEL.contains("google_sdk")
-//                || Build.MODEL.contains("Emulator")
-//                || Build.MODEL.contains("Android SDK built for x86")
-//                || Build.MANUFACTURER.contains("Genymotion")
-//                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
-//                || "google_sdk".equals(Build.PRODUCT);
-//        if (checkProperty) {
-//            return true;
-//        }
-//
-//        String operatorName = "";
-//        TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
-//        if (tm != null) {
-//            String name = tm.getNetworkOperatorName();
-//            if (name != null) {
-//                operatorName = name;
-//            }
-//        }
-//        boolean checkOperatorName = operatorName.toLowerCase().equals("android");
-//        if (checkOperatorName) {
-//            return true;
-//        }
-//
-//        String url = "tel:" + "123456";
-//        Intent intent = new Intent();
-//        intent.setData(Uri.parse(url));
-//        intent.setAction(Intent.ACTION_DIAL);
-//        boolean checkDial = intent.resolveActivity(Utils.getApp().getPackageManager()) == null;
-//        if (checkDial) return true;
-//
-////        boolean checkDebuggerConnected = Debug.isDebuggerConnected();
-////        if (checkDebuggerConnected) return true;
+    public static boolean isEmulator(Context mContext) {
+        boolean checkProperty = Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.toLowerCase().contains("vbox")
+                || Build.FINGERPRINT.toLowerCase().contains("test-keys")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+        if (checkProperty) {
+            return true;
+        }
+
+        String operatorName = "";
+        TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        if (tm != null) {
+            String name = tm.getNetworkOperatorName();
+            if (name != null) {
+                operatorName = name;
+            }
+        }
+        boolean checkOperatorName = operatorName.toLowerCase().equals("android");
+        if (checkOperatorName) {
+            return true;
+        }
+
+        String url = "tel:" + "123456";
+        Intent intent = new Intent();
+        intent.setData(Uri.parse(url));
+        intent.setAction(Intent.ACTION_DIAL);
+        boolean checkDial = intent.resolveActivity(mContext.getPackageManager()) == null;
+        if (checkDial) return true;
+
+//        boolean checkDebuggerConnected = Debug.isDebuggerConnected();
+//        if (checkDebuggerConnected) return true;
 
         return false;
     }
@@ -412,8 +412,8 @@ public final class DeviceUtils {
      * @return the unique device id
      */
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    public static String getUniqueDeviceId() {
-        return getUniqueDeviceId("", true);
+    public static String getUniqueDeviceId(Context mContext) {
+        return getUniqueDeviceId("", true,mContext);
     }
 
     /**
@@ -426,8 +426,8 @@ public final class DeviceUtils {
      * @return the unique device id
      */
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    public static String getUniqueDeviceId(String prefix) {
-        return getUniqueDeviceId(prefix, true);
+    public static String getUniqueDeviceId(String prefix,Context mContext) {
+        return getUniqueDeviceId(prefix, true,mContext);
     }
 
     /**
@@ -440,8 +440,8 @@ public final class DeviceUtils {
      * @return the unique device id
      */
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    public static String getUniqueDeviceId(boolean useCache) {
-        return getUniqueDeviceId("", useCache);
+    public static String getUniqueDeviceId(boolean useCache,Context mContext) {
+        return getUniqueDeviceId("", useCache,mContext);
     }
 
     /**
@@ -455,70 +455,72 @@ public final class DeviceUtils {
      * @return the unique device id
      */
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    public static String getUniqueDeviceId(String prefix, boolean useCache) {
-//        if (!useCache) {
-//            return getUniqueDeviceIdReal(prefix);
-//        }
-//        if (udid == null) {
-//            synchronized (DeviceUtils.class) {
-//                if (udid == null) {
-//                    final String id = UtilsBridge.getSpUtils4Utils().getString(KEY_UDID, null);
-//                    if (id != null) {
-//                        udid = id;
-//                        return udid;
-//                    }
-//                    return getUniqueDeviceIdReal(prefix);
-//                }
-//            }
-//        }
+    public static String getUniqueDeviceId(String prefix, boolean useCache,Context mContext) {
+        if (!useCache) {
+            return getUniqueDeviceIdReal(prefix,mContext);
+        }
+        if (udid == null) {
+            synchronized (DeviceUtils.class) {
+                if (udid == null) {
+                    final String id = UtilsBridge.getSpUtils4Utils(mContext).getString(KEY_UDID, null);
+                    if (id != null) {
+                        udid = id;
+
+                        return udid;
+                    }
+
+                    return getUniqueDeviceIdReal(prefix,mContext);
+                }
+            }
+        }
         return udid;
     }
 
-    private static String getUniqueDeviceIdReal(String prefix) {
+    private static String getUniqueDeviceIdReal(String prefix,Context mContext) {
         try {
-            final String androidId = getAndroidID();
+            final String androidId = getAndroidID(mContext);
             if (!TextUtils.isEmpty(androidId)) {
-                return saveUdid(prefix + 2, androidId);
+                return saveUdid(mContext,prefix + 2, androidId);
             }
 
         } catch (Exception ignore) {/**/}
-        return saveUdid(prefix + 9, "");
+        return saveUdid(mContext,prefix + 9, "");
     }
 
     @SuppressLint({"MissingPermission", "HardwareIds"})
-    public static boolean isSameDevice(final String uniqueDeviceId) {
-//        // {prefix}{type}{32id}
-//        if (TextUtils.isEmpty(uniqueDeviceId) && uniqueDeviceId.length() < 33) {
-//            return false;
-//        }
-//        if (uniqueDeviceId.equals(udid)) {
-//            return true;
-//        }
-//        final String cachedId = UtilsBridge.getSpUtils4Utils().getString(KEY_UDID, null);
-//        if (uniqueDeviceId.equals(cachedId)) {
-//            return true;
-//        }
-//        int st = uniqueDeviceId.length() - 33;
-//        String type = uniqueDeviceId.substring(st, st + 1);
-//        if (type.startsWith("1")) {
-//            String macAddress = getMacAddress();
-//            if (macAddress.equals("")) {
-//                return false;
-//            }
-//            return uniqueDeviceId.substring(st + 1).equals(getUdid("", macAddress));
-//        } else if (type.startsWith("2")) {
-//            final String androidId = getAndroidID();
-//            if (TextUtils.isEmpty(androidId)) {
-//                return false;
-//            }
-//            return uniqueDeviceId.substring(st + 1).equals(getUdid("", androidId));
-//        }
+    public static boolean isSameDevice(Context mContext,final String uniqueDeviceId) {
+        // {prefix}{type}{32id}
+        if (TextUtils.isEmpty(uniqueDeviceId) && uniqueDeviceId.length() < 33) {
+            return false;
+        }
+        if (uniqueDeviceId.equals(udid)) {
+            return true;
+        }
+        final String cachedId = UtilsBridge.getSpUtils4Utils(mContext).getString(KEY_UDID, null);
+        if (uniqueDeviceId.equals(cachedId)) {
+            return true;
+        }
+        int st = uniqueDeviceId.length() - 33;
+        String type = uniqueDeviceId.substring(st, st + 1);
+        if (type.startsWith("1")) {
+            String macAddress = getMacAddress(mContext);
+            if (macAddress.equals("")) {
+                return false;
+            }
+            return uniqueDeviceId.substring(st + 1).equals(getUdid("", macAddress));
+        } else if (type.startsWith("2")) {
+            final String androidId = getAndroidID(mContext);
+            if (TextUtils.isEmpty(androidId)) {
+                return false;
+            }
+            return uniqueDeviceId.substring(st + 1).equals(getUdid("", androidId));
+        }
         return false;
     }
 
-    private static String saveUdid(String prefix, String id) {
-//        udid = getUdid(prefix, id);
-//        UtilsBridge.getSpUtils4Utils().put(KEY_UDID, udid);
+    private static String saveUdid(Context mContext,String prefix, String id) {
+        udid = getUdid(prefix, id);
+        UtilsBridge.getSpUtils4Utils(mContext).put(KEY_UDID, udid);
         return udid;
     }
 
