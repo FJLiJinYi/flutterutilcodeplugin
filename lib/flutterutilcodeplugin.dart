@@ -59,5 +59,26 @@ class Flutterutilcodeplugin {
     return await _channel.invokeMethod('isSameDevice',uniqueDeviceId);
   }
 
+  //////////////APP 相关、、、、、、、、、////////////////
+  static Future<String> getAppPackageName() async {
+    return await _channel.invokeMethod('getAppPackageName');
+  }
+
+  static Future<String> getAppName() async {
+    return await _channel.invokeMethod('getAppName');
+  }
+
+  static Future<String> getAppNames(String packageName) async {
+    return await _channel.invokeMethod('getAppNames',packageName);
+  }
+
+  static Future<String> getAppVersionName() async {
+    return await _channel.invokeMethod('getAppVersionName');
+  }
+
+  static Future<String> getAppVersionCode() async {
+    return await _channel.invokeMethod('getAppVersionCode');
+  }
+
 
 }

@@ -27,11 +27,13 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      String val = await Flutterutilcodeplugin.getUniqueDeviceId();
-      print(val);
-      bool st = await Flutterutilcodeplugin.isSameDevice(val);
-      platformVersion = st.toString();
-      print(st);
+      String val = await Flutterutilcodeplugin.getAppVersionName();
+      print("val "+val);
+      String vals = await Flutterutilcodeplugin.getAppVersionCode();
+      print(vals);
+//      bool st = await Flutterutilcodeplugin.isSameDevice(val);
+      platformVersion = vals;
+      print(platformVersion);
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }

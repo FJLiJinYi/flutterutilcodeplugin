@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import ljy.com.example.flutterutilcodeplugin.util.AppUtils;
 import ljy.com.example.flutterutilcodeplugin.util.DeviceUtils;
 
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
@@ -83,6 +84,23 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
                     result.success(DeviceUtils.isSameDevice(mContext,value));
                     break;
 
+                //AppUtils app相关包名 应用名等
+                case "getAppPackageName":
+                    result.success(AppUtils.getAppPackageName(mContext));
+                    break;
+                case "getAppName":
+                    result.success(AppUtils.getAppName(mContext));
+                    break;
+                case "getAppNames":
+                    String packageName = (String) call.arguments;
+                    result.success(AppUtils.getAppName(mContext,packageName));
+                    break;
+                case "getAppVersionName":
+                    result.success(AppUtils.getAppVersionName(mContext));
+                    break;
+                case "getAppVersionCode":
+                    result.success(AppUtils.getAppVersionName(mContext));
+                    break;
 
                 default:
                     break;
