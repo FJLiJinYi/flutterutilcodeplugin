@@ -55,6 +55,9 @@ class Flutterutilcodeplugin {
     return await _channel.invokeMethod('getUniqueDeviceId');
   }
 
+  static Future<bool> isSameDevice(String uniqueDeviceId) async {
+    return await _channel.invokeMethod('isSameDevice',uniqueDeviceId);
+  }
 
 
 }

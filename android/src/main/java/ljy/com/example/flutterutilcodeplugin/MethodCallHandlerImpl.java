@@ -79,9 +79,10 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
                     result.success(DeviceUtils.getUniqueDeviceId(mContext));
                     break;
                 case "isSameDevice":
-                    String value = (String) call.argument("value");
+                    String value = (String) call.arguments;
                     result.success(DeviceUtils.isSameDevice(mContext,value));
                     break;
+
 
                 default:
                     break;

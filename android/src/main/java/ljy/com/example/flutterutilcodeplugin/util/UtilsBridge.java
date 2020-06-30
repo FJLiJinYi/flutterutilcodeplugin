@@ -493,13 +493,13 @@ class UtilsBridge {
         return SPUtils.getInstance(mContext,"Utils");
     }
 //
-//    ///////////////////////////////////////////////////////////////////////////
-//    // StringUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static boolean isSpace(final String s) {
-//        return StringUtils.isSpace(s);
-//    }
-//
+    ///////////////////////////////////////////////////////////////////////////
+    // StringUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static boolean isSpace(final String s) {
+        return StringUtils.isSpace(s);
+    }
+
 //    static boolean equals(final CharSequence s1, final CharSequence s2) {
 //        return StringUtils.equals(s1, s2);
 //    }
