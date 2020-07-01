@@ -11,6 +11,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import ljy.com.example.flutterutilcodeplugin.util.AppUtils;
 import ljy.com.example.flutterutilcodeplugin.util.DeviceUtils;
+import ljy.com.example.flutterutilcodeplugin.util.EncryptUtils;
 
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
@@ -99,8 +100,67 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
                     result.success(AppUtils.getAppVersionName(mContext));
                     break;
                 case "getAppVersionCode":
-                    result.success(AppUtils.getAppVersionName(mContext));
+                    result.success(AppUtils.getAppVersionCode(mContext));
                     break;
+
+                //EncryptUtils
+                case "encryptMD5ToString":
+                    String md5Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptMD5ToString(md5Data));
+                    break;
+                case "encryptSHA1ToString":
+                    String sHA1Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptSHA1ToString(sHA1Data));
+                    break;
+                case "encryptSHA224ToString":
+                    String SHA224Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptSHA224ToString(SHA224Data));
+                    break;
+                case "encryptSHA256ToString":
+                    String SHA256Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptSHA256ToString(SHA256Data));
+                    break;
+                case "encryptSHA384ToString":
+                    String SHA384Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptSHA384ToString(SHA384Data));
+                    break;
+                case "encryptSHA512ToString":
+                    String SHA512Data = (String) call.arguments;
+                    result.success(EncryptUtils.encryptSHA512ToString(SHA512Data));
+                    break;
+                case "encryptHmacMD5ToString":
+                    String HmacMD5Data = (String) call.argument("encryptHmacMD5");
+                    String HmacMD5Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacMD5ToString(HmacMD5Data,HmacMD5Key));
+                    break;
+                case "encryptHmacSHA1ToString":
+                    String HmacSHA1Data = (String) call.argument("encryptHmacSHA1");
+                    String HmacSHA1Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacSHA1ToString(HmacSHA1Data,HmacSHA1Key));
+                    break;
+                case "encryptHmacSHA224ToString":
+                    //值有点不对~~~
+                    String HmacSHA224Data = (String) call.argument("encryptHmacSHA224");
+                    String HmacSHA224Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacSHA224ToString(HmacSHA224Data,HmacSHA224Key));
+                    break;
+                case "encryptHmacSHA256ToString":
+                    String HmacSHA256Data = (String) call.argument("encryptHmacSHA256");
+                    String HmacSHA256Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacSHA256ToString(HmacSHA256Data,HmacSHA256Key));
+                    break;
+                case "encryptHmacSHA384ToString":
+                    //值有点不对~~~
+                    String HmacSHA384Data = (String) call.argument("encryptHmacSHA384");
+                    String HmacSHA384Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacSHA384ToString(HmacSHA384Data,HmacSHA384Key));
+                    break;
+                case "encryptHmacSHA512ToString":
+                    String HmacSHA512Data = (String) call.argument("encryptHmacSHA512");
+                    String HmacSHA512Key = (String) call.argument("encryptHmacKey");
+                    result.success(EncryptUtils.encryptHmacSHA512ToString(HmacSHA512Data,HmacSHA512Key));
+                    break;
+
 
                 default:
                     break;

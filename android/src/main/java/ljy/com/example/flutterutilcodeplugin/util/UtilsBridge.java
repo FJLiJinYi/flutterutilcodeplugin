@@ -13,6 +13,8 @@ import android.os.Parcelable;
 import android.view.View;
 
 
+import androidx.annotation.RequiresApi;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -154,16 +156,16 @@ class UtilsBridge {
 //        return BarUtils.getNavBarHeight();
 //    }
 //
-//    ///////////////////////////////////////////////////////////////////////////
-//    // ConvertUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static String bytes2HexString(final byte[] bytes) {
-//        return ConvertUtils.bytes2HexString(bytes);
-//    }
-//
-//    static byte[] hexString2Bytes(String hexString) {
-//        return ConvertUtils.hexString2Bytes(hexString);
-//    }
+    ///////////////////////////////////////////////////////////////////////////
+    // ConvertUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static String bytes2HexString(final byte[] bytes) {
+        return ConvertUtils.bytes2HexString(bytes);
+    }
+
+    static byte[] hexString2Bytes(String hexString) {
+        return ConvertUtils.hexString2Bytes(hexString);
+    }
 //
 //    static byte[] string2Bytes(final String string) {
 //        return ConvertUtils.string2Bytes(string);
@@ -206,10 +208,10 @@ class UtilsBridge {
 //        return ConvertUtils.bytes2Object(bytes);
 //    }
 //
-//    static String byte2FitMemorySize(final long byteSize) {
-//        return ConvertUtils.byte2FitMemorySize(byteSize);
-//    }
-//
+    static String byte2FitMemorySize(final long byteSize) {
+        return ConvertUtils.byte2FitMemorySize(byteSize);
+    }
+
 //    static byte[] inputStream2Bytes(final InputStream is) {
 //        return ConvertUtils.inputStream2Bytes(is);
 //    }
@@ -222,17 +224,17 @@ class UtilsBridge {
 //        return ConvertUtils.inputStream2Lines(is, charsetName);
 //    }
 //
-//    ///////////////////////////////////////////////////////////////////////////
-//    // EncodeUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static byte[] base64Encode(final byte[] input) {
-//        return EncodeUtils.base64Encode(input);
-//    }
-//
-//    static byte[] base64Decode(final byte[] input) {
-//        return EncodeUtils.base64Decode(input);
-//    }
-//
+    ///////////////////////////////////////////////////////////////////////////
+    // EncodeUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static byte[] base64Encode(final byte[] input) {
+        return EncodeUtils.base64Encode(input);
+    }
+
+    static byte[] base64Decode(final byte[] input) {
+        return EncodeUtils.base64Decode(input);
+    }
+
 //    ///////////////////////////////////////////////////////////////////////////
 //    // EncryptUtils
 //    ///////////////////////////////////////////////////////////////////////////
@@ -256,49 +258,49 @@ class UtilsBridge {
 //        return FileIOUtils.writeFileFromString(filePath, content, append);
 //    }
 //
-//    static boolean writeFileFromIS(final String filePath, final InputStream is) {
-//        return FileIOUtils.writeFileFromIS(filePath, is);
-//    }
-//
-//    ///////////////////////////////////////////////////////////////////////////
-//    // FileUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static boolean isFileExists(final File file) {
-//        return FileUtils.isFileExists(file);
-//    }
-//
-//    static File getFileByPath(final String filePath) {
-//        return FileUtils.getFileByPath(filePath);
-//    }
-//
-//    static boolean deleteAllInDir(final File dir) {
-//        return FileUtils.deleteAllInDir(dir);
-//    }
-//
-//    static boolean createOrExistsFile(final File file) {
-//        return FileUtils.createOrExistsFile(file);
-//    }
-//
-//    static boolean createOrExistsDir(final File file) {
-//        return FileUtils.createOrExistsDir(file);
-//    }
-//
-//    static boolean createFileByDeleteOldFile(final File file) {
-//        return FileUtils.createFileByDeleteOldFile(file);
-//    }
-//
-//    static long getFsTotalSize(String path) {
-//        return FileUtils.getFsTotalSize(path);
-//    }
-//
-//    static long getFsAvailableSize(String path) {
-//        return FileUtils.getFsAvailableSize(path);
-//    }
-//
-//    static void notifySystemToScan(File file) {
-//        FileUtils.notifySystemToScan(file);
-//    }
-//
+    static boolean writeFileFromIS(final String filePath, final InputStream is) {
+        return FileIOUtils.writeFileFromIS(filePath, is);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // FileUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static boolean isFileExists(final Context mContext,final File file) {
+        return FileUtils.isFileExists(mContext,file);
+    }
+
+    static File getFileByPath(final String filePath) {
+        return FileUtils.getFileByPath(filePath);
+    }
+
+    static boolean deleteAllInDir(final File dir) {
+        return FileUtils.deleteAllInDir(dir);
+    }
+
+    static boolean createOrExistsFile(final File file) {
+        return FileUtils.createOrExistsFile(file);
+    }
+
+    static boolean createOrExistsDir(final File file) {
+        return FileUtils.createOrExistsDir(file);
+    }
+
+    static boolean createFileByDeleteOldFile(final File file) {
+        return FileUtils.createFileByDeleteOldFile(file);
+    }
+
+    static long getFsTotalSize(String path) {
+        return FileUtils.getFsTotalSize(path);
+    }
+
+    static long getFsAvailableSize(String path) {
+        return FileUtils.getFsAvailableSize(path);
+    }
+
+    static void notifySystemToScan(final Context mContext,File file) {
+        FileUtils.notifySystemToScan(mContext,file);
+    }
+
 //    ///////////////////////////////////////////////////////////////////////////
 //    // GsonUtils
 //    ///////////////////////////////////////////////////////////////////////////
@@ -317,42 +319,42 @@ class UtilsBridge {
 //    ///////////////////////////////////////////////////////////////////////////
 //    // ImageUtils
 //    ///////////////////////////////////////////////////////////////////////////
-//    static byte[] bitmap2Bytes(final Bitmap bitmap) {
-//        return ImageUtils.bitmap2Bytes(bitmap);
-//    }
-//
-//    static byte[] bitmap2Bytes(final Bitmap bitmap, final Bitmap.CompressFormat format, int quality) {
-//        return ImageUtils.bitmap2Bytes(bitmap, format, quality);
-//    }
-//
-//    static Bitmap bytes2Bitmap(final byte[] bytes) {
-//        return ImageUtils.bytes2Bitmap(bytes);
-//    }
-//
-//    static byte[] drawable2Bytes(final Drawable drawable) {
-//        return ImageUtils.drawable2Bytes(drawable);
-//    }
-//
-//    static byte[] drawable2Bytes(final Drawable drawable, final Bitmap.CompressFormat format, int quality) {
-//        return ImageUtils.drawable2Bytes(drawable, format, quality);
-//    }
-//
-//    static Drawable bytes2Drawable(final byte[] bytes) {
-//        return ImageUtils.bytes2Drawable(bytes);
-//    }
-//
-//    static Bitmap view2Bitmap(final View view) {
-//        return ImageUtils.view2Bitmap(view);
-//    }
-//
-//    static Bitmap drawable2Bitmap(final Drawable drawable) {
-//        return ImageUtils.drawable2Bitmap(drawable);
-//    }
-//
-//    static Drawable bitmap2Drawable(final Bitmap bitmap) {
-//        return ImageUtils.bitmap2Drawable(bitmap);
-//    }
-//
+    static byte[] bitmap2Bytes(final Bitmap bitmap) {
+        return ImageUtils.bitmap2Bytes(bitmap);
+    }
+
+    static byte[] bitmap2Bytes(final Bitmap bitmap, final Bitmap.CompressFormat format, int quality) {
+        return ImageUtils.bitmap2Bytes(bitmap, format, quality);
+    }
+
+    static Bitmap bytes2Bitmap(final byte[] bytes) {
+        return ImageUtils.bytes2Bitmap(bytes);
+    }
+
+    static byte[] drawable2Bytes(final Drawable drawable) {
+        return ImageUtils.drawable2Bytes(drawable);
+    }
+
+    static byte[] drawable2Bytes(final Drawable drawable, final Bitmap.CompressFormat format, int quality) {
+        return ImageUtils.drawable2Bytes(drawable, format, quality);
+    }
+
+    static Drawable bytes2Drawable(final Context mContext,final byte[] bytes) {
+        return ImageUtils.bytes2Drawable(mContext,bytes);
+    }
+
+    static Bitmap view2Bitmap(final View view) {
+        return ImageUtils.view2Bitmap(view);
+    }
+
+    static Bitmap drawable2Bitmap(final Drawable drawable) {
+        return ImageUtils.drawable2Bitmap(drawable);
+    }
+
+    static Drawable bitmap2Drawable(final Context mContext,final Bitmap bitmap) {
+        return ImageUtils.bitmap2Drawable(mContext,bitmap);
+    }
+
 //    ///////////////////////////////////////////////////////////////////////////
 //    // IntentUtils
 //    ///////////////////////////////////////////////////////////////////////////
@@ -415,18 +417,18 @@ class UtilsBridge {
 //        LanguageUtils.applyLanguage(activity);
 //    }
 //
-//    ///////////////////////////////////////////////////////////////////////////
-//    // PermissionUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static boolean isGranted(final String... permissions) {
-//        return PermissionUtils.isGranted(permissions);
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    static boolean isGrantedDrawOverlays() {
-//        return PermissionUtils.isGrantedDrawOverlays();
-//    }
-//
+    ///////////////////////////////////////////////////////////////////////////
+    // PermissionUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static boolean isGranted(final Context mContext,final String... permissions) {
+        return PermissionUtils.isGranted(mContext,permissions);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    static boolean isGrantedDrawOverlays(final Context mContext) {
+        return PermissionUtils.isGrantedDrawOverlays(mContext);
+    }
+
 //    ///////////////////////////////////////////////////////////////////////////
 //    // ProcessUtils
 //    ///////////////////////////////////////////////////////////////////////////
@@ -467,25 +469,25 @@ class UtilsBridge {
 //        return ShellUtils.execCmd(command, isRooted);
 //    }
 //
-//    ///////////////////////////////////////////////////////////////////////////
-//    // SizeUtils
-//    ///////////////////////////////////////////////////////////////////////////
-//    static int dp2px(final float dpValue) {
-//        return SizeUtils.dp2px(dpValue);
-//    }
-//
-//    static int px2dp(final float pxValue) {
-//        return SizeUtils.px2dp(pxValue);
-//    }
-//
-//    static int sp2px(final float spValue) {
-//        return SizeUtils.sp2px(spValue);
-//    }
-//
-//    static int px2sp(final float pxValue) {
-//        return SizeUtils.px2sp(pxValue);
-//    }
-//
+    ///////////////////////////////////////////////////////////////////////////
+    // SizeUtils
+    ///////////////////////////////////////////////////////////////////////////
+    static int dp2px(final float dpValue) {
+        return SizeUtils.dp2px(dpValue);
+    }
+
+    static int px2dp(final float pxValue) {
+        return SizeUtils.px2dp(pxValue);
+    }
+
+    static int sp2px(final float spValue) {
+        return SizeUtils.sp2px(spValue);
+    }
+
+    static int px2sp(final float pxValue) {
+        return SizeUtils.px2sp(pxValue);
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // SpUtils
     ///////////////////////////////////////////////////////////////////////////
