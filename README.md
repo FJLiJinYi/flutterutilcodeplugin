@@ -1,6 +1,6 @@
 # flutterutilcodeplugin
 
-A new Flutter plugin.
+通过通道的方式将一些android 的工具类实现调用
 
 ## Getting Started
 
